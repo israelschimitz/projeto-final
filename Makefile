@@ -5,10 +5,10 @@ PATH := ${TOOLCHAIN}:${PATH}
 
 all:
 	@echo CAMINHO SETADO É:$(PATH)
-	@echo COMANDO EMITIDO: ${CROSS_COMPILE}gcc i2c.c -o i2cteste
-	@${CROSS_COMPILE}gcc i2c.c -o i2cteste
+	@echo COMANDO EMITIDO: ${CROSS_COMPILE}gcc gpio.c -o gpiofinal
+	@${CROSS_COMPILE}gcc gpio.c -o gpiofinal
 
 clean:
-	@rm -rf *.o i2cteste
+	@rm -rf *.o gpiofinal
 
 
