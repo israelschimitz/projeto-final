@@ -1,21 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define TOLERANCIAPOSITIVA 5
 #define TOLERANCIANEGATIVA -5
-
 
 int main (int argc, char **argv)
 {
 	FILE *gpio;
 	FILE *adc;
-	
+	FILE *html;
+	FILE *txt;
+
 	int LeituraAD;
 	char valor[20];
 	int i=0;
 	float Erro=0;
 	int Referencia = 30;
+	char aux[6];
 
 
 ///--------------seta em high o 161 pino 10 para VCC do potenciometro
@@ -169,13 +172,28 @@ int main (int argc, char **argv)
                         gpio=fopen("/sys/class/gpio/gpio166/value","w");
                         fputs ("0",gpio);
                         fclose (gpio);
-			 printf ("estou no filtro");
+			// printf ("estou no filtro");
 
 
-                }
-
-
-			
+        	}
+	
+	
+		txt= fopen("/var/www/index.html","w");
+		sprintf (aux, "%d", LeituraAD);
+		fputs("<html><head><META HTTP-EQUIV='REFRESH' CONTENT='1'></head><body>",txt);
+		fputs("<h1> O eixo em graus eh: </h1>\n", txt);
+		fputs(aux, txt);
+		fputs("</body></html>",txt);
+		
+		fclose(txt);
+	
+	//	html = fopen("/var/www/index.html","w+");
+	//		printf("content-type: text/html\n\n");
+	//		printf("<html>\n<body>\n");
+	//		printf("<h1> O eixo em graus é: </h1>\n");
+	//		printf("<h1>       %d           </h1>\n", LeituraAD);
+	//		printf("</body>\n</html>\n");
+	//	fclose(html);
 	}
 	
 	return 0;

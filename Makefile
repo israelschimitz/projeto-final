@@ -5,10 +5,10 @@ PATH := ${TOOLCHAIN}:${PATH}
 
 all:
 	@echo CAMINHO SETADO É:$(PATH)
-	@echo COMANDO EMITIDO: ${CROSS_COMPILE}gcc gpio.c -o gpiofinal
-	@${CROSS_COMPILE}gcc gpio.c -o gpiofinal
+	@echo COMANDO EMITIDO: ${CROSS_COMPILE}gcc gpio.c -o gpiofinal.cgi
+	@${CROSS_COMPILE}gcc gpio.c -o gpiofinal.cgi
 
 clean:
-	@rm -rf *.o gpiofinal
+	@rm -rf *.o gpiofinal.cgi
 
 
