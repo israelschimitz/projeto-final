@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define TOLERANCIAPOSITIVA 5
+#define TOLERANCIANEGATIVA -5
+
+
 int main (int argc, char **argv)
 {
 	FILE *gpio;
@@ -10,8 +14,8 @@ int main (int argc, char **argv)
 	int LeituraAD;
 	char valor[20];
 	int i=0;
-	int Erro=0;
-	int Referencia = 270;
+	float Erro=0;
+	int Referencia = 30;
 
 
 ///--------------seta em high o 161 pino 10 para VCC do potenciometro
@@ -42,10 +46,12 @@ int main (int argc, char **argv)
         fputs ("out",gpio);
         fclose (gpio);
 
-        //escreve 1 na porta
-      //  gpio=fopen("/sys/class/gpio/gpio193/value","w");
-      //  fputs ("1",gpio);
-      //  fclose (gpio);
+
+       //zera o Enable
+         gpio=fopen("/sys/class/gpio/gpio193/value","w");
+         fputs ("0",gpio);
+         fclose (gpio);
+
 ///-----------------------------------------------------------------
 
 //--------------seta em high o 166 pino 15 para IN 2--------------------
@@ -85,11 +91,6 @@ int main (int argc, char **argv)
 
 	while (1)	
 	{
-		//zera o Enable
-		gpio=fopen("/sys/class/gpio/gpio193/value","w");
-	      	fputs ("0",gpio);
-      		fclose (gpio);
-
 		
 		adc = fopen ("/sys/devices/platform/s3c24xx-adc/s3c-hwmon/in1_input", "r");
         	fscanf (adc, "%s", valor);
@@ -151,7 +152,7 @@ int main (int argc, char **argv)
 
                 	}
 
-		if (Erro < 2)  {
+		if ((Erro < TOLERANCIAPOSITIVA) && (Erro > TOLERANCIANEGATIVA))  {
 
 		                       
                         //escreve 0 na porta ENABLE
