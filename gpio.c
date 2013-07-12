@@ -17,9 +17,34 @@ int main (int argc, char **argv)
 	char valor[20];
 	int i=0;
 	float Erro=0;
-	int Referencia = 30;
+	int Referencia;
 	char aux[6];
-
+	int c;
+	char *svalue = NULL;
+	int opterr = 0;
+	
+	char graus [4];
+//	while ((c = getopt (argc, argv, "s:")) != -1)
+ //       	switch (c)
+ //          	{
+ //      		     	case 's':
+ //            			svalue = optarg;
+//			Referencia = atoi (svalue);
+ //            			break;
+ //          		case '?':
+ //       			if (optopt == 's')
+ //              				fprintf (stderr, "opção -%c precisa de um valor entre 0 a 330°.\n", optopt);
+ //            			else if (isprint (optopt))
+ //              				fprintf (stderr, "opção invalida `-%c'.\n", optopt);
+ //           			else
+ //              				fprintf (stderr,"opção invalida `\\x%x'.\n", optopt);
+ //            			return 1;
+//           	default:
+//             		abort ();
+//           	}
+//	}
+	
+	
 
 ///--------------seta em high o 161 pino 10 para VCC do potenciometro
         //exporta a gpio 161***** 3,3 v para o pot
@@ -91,10 +116,20 @@ int main (int argc, char **argv)
       //  fclose (gpio);
 ///-----------------------------------------------------------------
 
+	printf("insira um angulo de 0 a 330°\n");
+        gets(graus);
+        Referencia = atoi (graus);
+        if (Referencia > 330)
+        	Referencia = 330;
+        if (Referencia < 0)
+                Referencia = 0;
+
+
 
 	while (1)	
 	{
-		
+	
+			
 		adc = fopen ("/sys/devices/platform/s3c24xx-adc/s3c-hwmon/in1_input", "r");
         	fscanf (adc, "%s", valor);
         	fclose (adc);
@@ -173,7 +208,8 @@ int main (int argc, char **argv)
                         fputs ("0",gpio);
                         fclose (gpio);
 			// printf ("estou no filtro");
-
+			
+			break;
 
         	}
 	
